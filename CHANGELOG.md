@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Added `escape` option for enabling/disabling escaping of forward slashes in JSON. This was security option to prevent embedding of script tags.
+
 ### Changed
 
 - Changed `set` to throw `ValueStoreException` if non scalar final values are passed (arrays are processed deep)

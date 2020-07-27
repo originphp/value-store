@@ -59,6 +59,13 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
     private $root;
 
     /**
+     * JSON excape slashes
+     *
+     * @var boolean
+     */
+    private $escape = false;
+
+    /**
      * Extensions for detection
      */
     const TYPES = ['json','php','xml','yml'];
@@ -67,14 +74,22 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
      * @param string $file
      * @param array $options
      *  type: how the data is stored. default:json xml, json, yml. Will be autodetected from extension
+     *  root: name of root element for xml exports
+     *  escape: option for JSON wether to escape forward slashes. From what I understand this is a security
+     * measure to allow embedding `</script>` inside json.
      */
     public function __construct(string $file = null, array $options = [])
     {
-        $options += ['type' => $file ? $this->detectType($file) : 'json', 'root' => 'root'];
+        $options += [
+            'type' => $file ? $this->detectType($file) : 'json',
+            'root' => 'root',  // xml root name
+            'escape' => $this->escape  // json option for escaping forward slashes
+        ];
 
         $this->file = $file;
         $this->type = $options['type'];
         $this->root = $options['root'];
+        $this->escape = $options['escape'];
 
         if (! in_array($options['type'], self::TYPES)) {
             throw new InvalidArgumentException('Unkown type ' . $options['type']);
@@ -188,7 +203,7 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
         switch ($this->type) {
             case 'json':
             default:
-                return $this->toJson(['pretty' => true]);
+                return $this->toJson(['pretty' => true, 'escape' => $this->escape]);
             break;
             case 'php':
                 return $this->toPhp();
@@ -253,13 +268,18 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
      *
      * @param array $options Supported options are
      *   - pretty: default:false for json pretty print
+     *   - escape: default:false. Escape forward slashes e.g. url
      * @return string
      */
     public function toJson(array $options = []): string
     {
-        $options += ['pretty' => false];
+        $options += ['pretty' => false,'escape' => false];
 
-        return json_encode($this->data, $options['pretty'] ? JSON_PRETTY_PRINT : 0);
+        $flags =
+            ($options['pretty'] ? JSON_PRETTY_PRINT : 0) |
+            ($options['escape'] === false ? JSON_UNESCAPED_SLASHES: 0);
+            
+        return json_encode($this->data, $flags);
     }
 
     /**
