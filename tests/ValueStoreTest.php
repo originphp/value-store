@@ -15,6 +15,7 @@
 declare(strict_types=1);
 namespace Origin\ValueStore;
 
+use stdClass;
 use InvalidArgumentException;
 use Origin\ValueStore\Exception\ValueStoreException;
 
@@ -292,5 +293,36 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
         $settings->foo = 'bar';
         $expected = '{"foo":"bar"}';
         $this->assertEquals($expected, json_encode($settings));
+    }
+
+    public function testIncreaseException()
+    {
+        $this->expectException(ValueStoreException::class);
+        $store = new ValueStore();
+        $store->foo = 'bar';
+        $store->increment('foo');
+    }
+    public function testDecreaseException()
+    {
+        $this->expectException(ValueStoreException::class);
+        $store = new ValueStore();
+        $store->foo = 'bar';
+        $store->decrement('foo');
+    }
+
+    public function testStoreNonScalar()
+    {
+        $this->expectException(ValueStoreException::class);
+        $store = new ValueStore();
+        $store->foo = new stdClass();
+    }
+
+    public function testStoreNonScalarDeep()
+    {
+        $this->expectException(ValueStoreException::class);
+        $store = new ValueStore();
+        $store->foo = [
+            'bar' => new stdClass()
+        ];
     }
 }

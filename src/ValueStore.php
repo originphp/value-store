@@ -134,8 +134,31 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
     {
         $data = is_array($key) ? $key : [$key => $value];
 
+        $this->validate($data);
+
         foreach ($data as $key => $value) {
             $this->data[$key] = $value;
+        }
+    }
+
+    /**
+     * Validates data in the array that it is either null, integer, float, string or boolean.
+     *
+     * @param array $data
+     * @throws \Origin\ValueStore\Exception\ValueStoreException
+     * @return void
+     */
+    private function validate(array $data): void
+    {
+        foreach ($data as $key => $value) {
+            if (is_array($value)) {
+                $this->validate($value);
+                continue;
+            }
+   
+            if (! is_null($value) && ! is_scalar($value)) {
+                throw new ValueStoreException('Non scalar value passed for key ' . $key);
+            }
         }
     }
 
@@ -296,9 +319,13 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
         if (! isset($this->data[$key])) {
             $this->data[$key] = 0;
         }
-        $this->data[$key] += $amount;
 
-        return $this->data[$key];
+        $this->validateInteger($this->data[$key]);
+      
+        $value = (int) $this->data[$key];
+        $value += $amount;
+
+        return $this->data[$key] = $value;
     }
 
     /**
@@ -313,9 +340,26 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
         if (! isset($this->data[$key])) {
             $this->data[$key] = 0;
         }
-        $this->data[$key] -= $amount;
 
-        return $this->data[$key];
+        $this->validateInteger($this->data[$key]);
+
+        $value = (int) $this->data[$key];
+        $value -= $amount;
+
+        return $this->data[$key] = $value;
+    }
+
+    /**
+     * Validates integer values for increment and decrement
+     *
+    * @throws \Origin\ValueStore\Exception\ValueStoreException
+     * @return void
+     */
+    private function validateInteger($value): void
+    {
+        if (! is_int($value) && ! ctype_digit($value)) {
+            throw new ValueStoreException('Value is not an integer');
+        }
     }
 
     /**
