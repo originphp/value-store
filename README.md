@@ -4,7 +4,7 @@
 [![build](https://travis-ci.org/originphp/value-store.svg?branch=master)](https://travis-ci.org/originphp/value-store)
 [![coverage](https://coveralls.io/repos/github/originphp/value-store/badge.svg?branch=master)](https://coveralls.io/github/originphp/value-store?branch=master)
 
-Provides a consistent interface for working various types of key-value stores, including JSON, XML, Yaml and PHP files.
+ValueStore is a Key-Value Store (KVS) which provides a consistent interface for working with various types of stores, including JSON, XML, Yaml and PHP files.
 
 ## Installation
 
@@ -16,23 +16,7 @@ $ composer require originphp/value-store
 
 ## Usage
 
-By default datastores are stored in `json` unless you provide a different file extension, such as `xml`,`yml` or `php`. The type is auto-detected from the file extension, but can be overridden in the constructor.
-
-### Dependencies
-
-To use `Xml` you will need to install the following composer package
-
-```bash
-$ composer require originphp/xml
-```
-
-To use `Yaml` you will need to install the following composer package
-
-```bash
-$ composer require originphp/yaml
-```
-
-### Data
+The type of store that is used is detected by the file extension (`json`, `xml`,`yml` or `php`), if it cannot detect or there is not extension then `json` will be used. This can also be overridden in the constructor.
 
 You work with this like an object or array, and if the file exists it will load the existing data. To save data call the `save` method.
 
@@ -107,10 +91,10 @@ $has = isset($settings['foo']);
 To clear all items in the store (remember to call save if needed).
 
 ```php
-$settings->clear(); // clears all values in value-store
+$settings->clear(); // clears all values
 ```
 
-You can convert your value-store to any type on the fly
+You can convert the `ValueStore` object to any type on the fly
 
 ```php
 $settings->toArray();
@@ -118,4 +102,18 @@ $settings->toJson();
 $settings->toPhp();
 $settings->toXml();
 $settings->toYaml();
+```
+
+### Dependencies
+
+To use `Xml` you will need to install the following composer package
+
+```bash
+$ composer require originphp/xml
+```
+
+To use `Yaml` you will need to install the following composer package
+
+```bash
+$ composer require originphp/yaml
 ```
