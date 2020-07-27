@@ -1,0 +1,45 @@
+{
+    "name": "originphp/value-store",
+    "description": "OriginPHP ValueStore (KVS)",
+    "type": "library",
+    "keywords": [
+        "originphp",
+        "valuestore",
+        "key-value",
+        "yaml",
+        "json",
+        "xml",
+        "php"
+    ],
+    "homepage": "https://www.originphp.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jamiel Sharief",
+            "email": "js@originphp.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Origin\\ValueStore\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Origin\\Test\\ValueStore\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.2.0",
+        "originphp/xml": "^1.0",
+        "originphp/yaml": "^1.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.0",
+        "phpstan/phpstan": "^0.12.33"
+    },
+    "suggest": {
+        "originphp/xml": "Install this if you want to work with XML files",
+        "originphp/yaml": "Install this if you want to work with Yaml files"
+      }
+}
