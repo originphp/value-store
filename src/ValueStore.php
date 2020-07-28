@@ -252,7 +252,12 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
         switch ($this->type) {
             case 'json':
             default:
-                return json_decode($contents, true);
+                $json = json_decode($contents, true);
+                if (json_last_error() !== JSON_ERROR_NONE) {
+                    throw new ValueStoreException('JSON decode error: ' . json_last_error_msg());
+                }
+
+                return $json;
             break;
             case 'xml':
                 return Xml::toArray($contents)[$this->root] ?? [];
