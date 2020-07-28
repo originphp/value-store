@@ -4,7 +4,7 @@
 [![build](https://travis-ci.org/originphp/value-store.svg?branch=master)](https://travis-ci.org/originphp/value-store)
 [![coverage](https://coveralls.io/repos/github/originphp/value-store/badge.svg?branch=master)](https://coveralls.io/github/originphp/value-store?branch=master)
 
-ValueStore is a Key-Value Store (KVS) which provides a consistent interface for working with various types of stores, including JSON, XML, Yaml and PHP files.
+ValueStore is a Key-Value Store (KVS) which provides a consistent interface for working with various types of stores, including JSON, Yaml, XML and PHP files.
 
 ## Installation
 
@@ -16,7 +16,7 @@ $ composer require originphp/value-store
 
 ## Usage
 
-The type of store that is used is detected by the file extension (`json`, `xml`,`yml` or `php`), if it cannot detect or there is not extension then `json` will be used. This can also be overridden in the constructor.
+The type of store that is used is detected by the file extension (`json`, `yml`, `xml`, or `php`), if it cannot detect or there is no extension then `json` type will be used. This can also be overridden in the constructor.
 
 You work with this like an object or array, and if the file exists it will load the existing data. To save data call the `save` method.
 
@@ -66,7 +66,7 @@ $settings->increment('count', 4);
 $settings->decrement('count', 3);
 ```
 
-You can also set/get/check values using functions, this can be handy when working with variables.
+You can also set/get/check values using functions.
 
 ```php
 $settings->set('foo','bar');
@@ -88,7 +88,7 @@ unset($settings['foo']);
 $has = isset($settings['foo']);
 ```
 
-To clear all items in the store (remember to call save if needed).
+To clear all data in the `ValueStore` (remember to call save if needed).
 
 ```php
 $settings->clear(); // clears all values
@@ -100,8 +100,8 @@ You can convert the `ValueStore` object to any type on the fly
 $settings->toArray();
 $settings->toJson();
 $settings->toPhp();
-$settings->toXml();
-$settings->toYaml();
+$settings->toXml(); // requires originphp/xml
+$settings->toYaml(); // requires originphp/yaml
 ```
 
 ### Dependencies
