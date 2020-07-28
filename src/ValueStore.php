@@ -82,7 +82,7 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
     {
         $options += [
             'type' => $file ? $this->detectType($file) : 'json',
-            'root' => 'root',  // xml root name
+            'root' => 'root',  // XML root name
             'escape' => $this->escape  // json option for escaping forward slashes
         ];
 
@@ -228,7 +228,7 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
             $data = include $this->file;
             
             if (! is_array($data)) {
-                throw new ValueStoreException('PHP value-store does not return an array');
+                throw new ValueStoreException('PHP ValueStore does not return an array');
             }
         } else {
             $data = $this->deserialize(file_get_contents($this->file));
@@ -301,8 +301,8 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
      * Converts to XML
      *
      * @param array $options The following keys are supported
-     *   - pretty: default:false for pretty print
-     *  - root: XML root name
+     *  - pretty: default:false for pretty print
+     *  - root: XML root name e.g. root, settings, data
      * @return string
      */
     public function toXml(array $options = []): string
