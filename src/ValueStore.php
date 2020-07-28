@@ -319,7 +319,7 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
      */
     public function toPhp(): string
     {
-        return '<?php' . PHP_EOL . 'return ' . var_export($this->data, true) . ';';
+        return '<?php' . PHP_EOL . 'return ' . $this->varExport($this->data) . ';';
     }
 
     /**
@@ -560,5 +560,27 @@ class ValueStore implements ArrayAccess, IteratorAggregate, Countable, JsonSeria
     public function getIterator()
     {
         return new ArrayIterator($this->data);
+    }
+
+    /**
+     * Returns string representation of a data using short syntax
+     *
+     * @source originPHP
+     *
+     * @param array $data
+     * @return string
+     */
+    private function varExport(array $data): string
+    {
+        $data = var_export($data, true);
+        $data = str_replace(
+            ['array (', "),\n", " => \n"],
+            ['[', "],\n", ' => '],
+            $data
+        );
+        $data = preg_replace('/=>\s\s+\[/i', '=> [', $data);
+        $data = preg_replace("/=> \[\s\s+\]/m", '=> []', $data);
+
+        return substr($data, 0, -1) . ']';
     }
 }
