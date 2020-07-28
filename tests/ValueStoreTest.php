@@ -161,7 +161,7 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
             'id' => 'f5324126-4a63-432a-b287-323969cae2e7'
         ];
         $this->assertTrue($settings->save());
-        $this->assertFileHash('9cd7a6fae64850eae345005f6e16893e', $file);
+        $this->assertFileHash('979161f35ecfb18a7e9b6de5d352754d', $file);
 
         $settings = new ValueStore($file);
         $this->assertEquals('php', $settings->name);
@@ -196,7 +196,7 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
 
     public function assertFileHash(string $expected, string $file)
     {
-        #echo file_get_contents($file);
+        echo file_get_contents($file);
         $this->assertEquals($expected, hash_file('md5', $file), 'File hash does not match');
     }
 
@@ -324,5 +324,121 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
         $store->foo = [
             'bar' => new stdClass()
         ];
+    }
+
+    public function testInvalidJson()
+    {
+        $this->expectException(ValueStoreException::class);
+        $file = sys_get_temp_dir() . '/' . uniqid() . '.json';
+        file_put_contents($file, '{x-a}');
+        ( new ValueStore($file))->save();
+    }
+
+    public function testOutputJson()
+    {
+        $file = sys_get_temp_dir() . '/' . uniqid() . '.json';
+        $store = new ValueStore($file);
+        $data = [
+            'name' => 'foo',
+            'descritpion' => '',
+            'account_id' => 1000,
+            'active' => true,
+            'status' => null,
+            'account' => [
+                'name' => 'example.com',
+                'url' => 'https://www.example.com',
+                'credentials' => [
+                    'username' => 'me@example.com',
+                    'password' => 'secret'
+                ]
+            ]
+        ];
+        $store->set($data);
+        $this->assertTrue($store->save());
+        $this->assertFileHash('7f2ccb76be6c7fc11d19da082c3ea2a5', $file);
+
+        $store = new ValueStore($file);
+        $this->assertEquals($data, $store->toArray());
+    }
+
+    public function testOutputPHP()
+    {
+        $file = sys_get_temp_dir() . '/' . uniqid() . '.php';
+        $store = new ValueStore($file);
+        $data = [
+            'name' => 'foo',
+            'descritpion' => '',
+            'account_id' => 1000,
+            'active' => true,
+            'status' => null,
+            'account' => [
+                'name' => 'example.com',
+                'url' => 'https://www.example.com',
+                'credentials' => [
+                    'username' => 'me@example.com',
+                    'password' => 'secret'
+                ]
+            ]
+        ];
+        $store->set($data);
+        $this->assertTrue($store->save());
+        $this->assertFileHash('1d842bb8e4644fdcb9db1294ac02998e', $file);
+
+        $store = new ValueStore($file);
+        $this->assertEquals($data, $store->toArray());
+    }
+
+    public function testOutputYaml()
+    {
+        $file = sys_get_temp_dir() . '/' . uniqid() . '.yml';
+        $store = new ValueStore($file);
+        $data = [
+            'name' => 'foo',
+            'descritpion' => '',
+            'account_id' => 1000,
+            'active' => true,
+            'status' => null,
+            'account' => [
+                'name' => 'example.com',
+                'url' => 'https://www.example.com',
+                'credentials' => [
+                    'username' => 'me@example.com',
+                    'password' => 'secret'
+                ]
+            ]
+        ];
+        $store->set($data);
+        $this->assertTrue($store->save());
+        $this->assertFileHash('8e536728bff8e47c325969f911c1c5ec', $file);
+
+        $store = new ValueStore($file);
+        $this->assertEquals($data, $store->toArray());
+    }
+
+    public function testOutputXml()
+    {
+        $file = sys_get_temp_dir() . '/' . uniqid() . '.xml';
+        $store = new ValueStore($file);
+        $data = [
+            'name' => 'foo',
+            'descritpion' => '',
+            'account_id' => 1000,
+            'active' => true,
+            'status' => null,
+            'account' => [
+                'name' => 'example.com',
+                'url' => 'https://www.example.com',
+                'credentials' => [
+                    'username' => 'me@example.com',
+                    'password' => 'secret'
+                ]
+            ]
+        ];
+        $store->set($data);
+        $this->assertTrue($store->save());
+        $this->assertFileHash('e02e81ea755a6073c7c5f12297e75d84', $file);
+
+        $store = new ValueStore($file);
+        $this->assertEquals($data, $store->toArray());
     }
 }
