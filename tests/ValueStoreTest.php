@@ -196,7 +196,7 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
 
     public function assertFileHash(string $expected, string $file)
     {
-        echo file_get_contents($file);
+        //echo file_get_contents($file);
         $this->assertEquals($expected, hash_file('md5', $file), 'File hash does not match');
     }
 
@@ -404,12 +404,19 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
                 'credentials' => [
                     'username' => 'me@example.com',
                     'password' => 'secret'
-                ]
-            ]
+                ],
+                'ports' => [
+                    8080,
+                    3000
+                ],
+                'description'=> "Desc #1\nDesc #2\nDesc #3"
+
+            ],
+            'notes'=> "Line #1\nLine #2\nLine #3"
         ];
         $store->set($data);
         $this->assertTrue($store->save());
-        $this->assertFileHash('8e536728bff8e47c325969f911c1c5ec', $file);
+        $this->assertFileHash('4c8df09e1e00ee303d203d3a83ca588d', $file);
 
         $store = new ValueStore($file);
         $this->assertEquals($data, $store->toArray());
@@ -431,12 +438,19 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
                 'credentials' => [
                     'username' => 'me@example.com',
                     'password' => 'secret'
-                ]
-            ]
+                ],
+                'ports' => [
+                    8080,
+                    3000
+                ],
+                'description'=> "Desc #1\nDesc #2\nDesc #3"
+
+            ],
+            'notes'=> "Line #1\nLine #2\nLine #3"
         ];
         $store->set($data);
         $this->assertTrue($store->save());
-        $this->assertFileHash('e02e81ea755a6073c7c5f12297e75d84', $file);
+        $this->assertFileHash('7bdd3d860b48ebc6741974ddf153ae23', $file);
 
         $store = new ValueStore($file);
         $this->assertEquals($data, $store->toArray());
