@@ -409,10 +409,10 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
                     8080,
                     3000
                 ],
-                'description'=> "Desc #1\nDesc #2\nDesc #3"
+                'description' => "Desc #1\nDesc #2\nDesc #3"
 
             ],
-            'notes'=> "Line #1\nLine #2\nLine #3"
+            'notes' => "Line #1\nLine #2\nLine #3"
         ];
         $store->set($data);
         $this->assertTrue($store->save());
@@ -443,10 +443,10 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
                     8080,
                     3000
                 ],
-                'description'=> "Desc #1\nDesc #2\nDesc #3"
+                'description' => "Desc #1\nDesc #2\nDesc #3"
 
             ],
-            'notes'=> "Line #1\nLine #2\nLine #3"
+            'notes' => "Line #1\nLine #2\nLine #3"
         ];
         $store->set($data);
         $this->assertTrue($store->save());
