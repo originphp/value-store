@@ -196,7 +196,7 @@ class ValueStoreTest extends \PHPUnit\Framework\TestCase
 
     public function assertFileHash(string $expected, string $file)
     {
-        //echo file_get_contents($file);
+        #echo PHP_EOL . $file . PHP_EOL . file_get_contents($file). PHP_EOL ;
         $this->assertEquals($expected, hash_file('md5', $file), 'File hash does not match');
     }
 
