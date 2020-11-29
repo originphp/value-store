@@ -5,17 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [1.0.5] - 2020-11-27
+## [1.0.5] - 2020-11-29
 
-### Removed
+### Fixed
 
-- Removed testing for PHP 7.2
+- Fixed minimum PHP version in composer this makes no sense for a new package. 
 
 ## [1.0.4] - 2020-11-27
 
 ### Fixed
 
-- Fixed installing extract packages by default
+- Fixed installing suggested packages by default
 
 ## [1.0.2] - 2020-07-29
 
