@@ -1,7 +1,7 @@
 # ValueStore
 
 ![license](https://img.shields.io/badge/license-MIT-brightGreen.svg)
-[![build](https://travis-ci.com/originphp/value-store.svg?branch=master)](https://travis-ci.com/originphp/value-store)
+[![build](https://github.com/originphp/valuestore/workflows/CI/badge.svg)](https://github.com/originphp/valuestore/actions)
 [![coverage](https://coveralls.io/repos/github/originphp/value-store/badge.svg?branch=master)](https://coveralls.io/github/originphp/value-store?branch=master)
 
 ValueStore is a Key-Value Store (KVS) which provides a consistent interface for working with various types of stores, including JSON, Yaml, XML and PHP files.

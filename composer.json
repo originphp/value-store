@@ -34,12 +34,12 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^9.0",
-        "phpstan/phpstan": "^0.12.33",
-        "originphp/xml": "^1.0",
-        "originphp/yaml": "^1.2"
+        "phpstan/phpstan": "^0.12.64",
+        "originphp/xml": "^2.0",
+        "originphp/yaml": "^2.0"
     },
     "suggest": {
         "originphp/xml": "Install this if you want to work with XML files",
         "originphp/yaml": "Install this if you want to work with Yaml files"
-      }
+    }
 }
